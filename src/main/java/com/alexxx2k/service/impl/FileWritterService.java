@@ -23,8 +23,8 @@ public class FileWritterService extends Service {
     @Override
     public void start() {
         File outputFile = fileType
-                ? new File("src\\main\\java\\com\\nikitzainc\\output\\output.csv")
-                : new File("src\\main\\java\\com\\nikitzainc\\output\\output.json");
+                ? new File("src\\main\\java\\com\\alexxx2k\\output\\output.csv")
+                : new File("src\\main\\java\\com\\alexxx2k\\output\\output.json");
 
         Runnable writer = fileType
                 ? new CsvFileWriter(outputFile, responseQueue)

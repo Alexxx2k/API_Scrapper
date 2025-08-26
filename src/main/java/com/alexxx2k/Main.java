@@ -21,10 +21,10 @@ public class Main {
         ArrayBlockingQueue<String> queue = new ArrayBlockingQueue<>(threadAmount * 2);
 
         ApiScrapperService apiService = new ApiScrapperService(
-                (int) Math.ceil(threadAmount/2.0), timeout, queue, inputFilePath);
+                threadAmount, timeout, queue, inputFilePath);
 
         FileWritterService fileService = new FileWritterService(
-                (int) Math.floor(threadAmount/2.0), queue, outputFileFormat);
+                threadAmount, queue, outputFileFormat);
 
 
         Thread apiThread = new Thread(() -> {
