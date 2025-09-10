@@ -2,21 +2,26 @@ package com.alexxx2k.api.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.alexxx2k.core.Service;
 import com.alexxx2k.api.client.ApiCaller;
+import com.alexxx2k.writer.ResponseFileWriter;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.*;
 
-public class ApiScrapperService extends Service {
+public class ApiScrapperService {
     private final int timeout;
     private final ArrayList<String> apis;
+    private final ScheduledExecutorService executor;
+    private final ArrayList<ScheduledFuture<?>> scheduledTasks;
+    private final ResponseFileWriter fileWriter;
 
-    public ApiScrapperService(int threadAmount, int timeout, BlockingQueue<String> responseQueue, String filepath) {
-        super(responseQueue, Executors.newScheduledThreadPool(threadAmount));
+    public ApiScrapperService(int threadAmount, int timeout,
+                              String filepath, ResponseFileWriter fileWriter) {
         this.timeout = timeout;
+        this.fileWriter = fileWriter;
+        this.executor = Executors.newScheduledThreadPool(threadAmount);
         this.scheduledTasks = new ArrayList<>();
 
         ObjectMapper mapper = new ObjectMapper();
@@ -28,18 +33,15 @@ public class ApiScrapperService extends Service {
         System.out.println("Api Scrapper Service created with " + threadAmount + " threads");
     }
 
-    @Override
     public void start() {
         for (String url : apis) {
-            ScheduledFuture<?> future = ((ScheduledExecutorService) executor).scheduleAtFixedRate(
-                    new ApiCaller(url, responseQueue), 0, timeout, TimeUnit.SECONDS);
+            ScheduledFuture<?> future = executor.scheduleAtFixedRate(
+                    new ApiCaller(url, fileWriter), 0, timeout, TimeUnit.SECONDS);
             scheduledTasks.add(future);
         }
     }
 
-    @Override
     public void stop() throws InterruptedException {
-        active = false;
         for (ScheduledFuture<?> scheduledTask : scheduledTasks) {
             scheduledTask.cancel(true);
         }
@@ -47,6 +49,6 @@ public class ApiScrapperService extends Service {
         if (!executor.awaitTermination(2, TimeUnit.SECONDS)) {
             executor.shutdownNow();
         }
-        System.out.println(this.getClass().getName() + " stopped");
+        System.out.println("ApiScrapperService stopped");
     }
 }
