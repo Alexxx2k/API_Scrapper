@@ -1,18 +1,18 @@
-package com.alexxx2k.service.impl;
+package com.alexxx2k.file.service;
 
-import com.alexxx2k.service.Service;
-import com.alexxx2k.thread.impl.CsvFileWriter;
-import com.alexxx2k.thread.impl.JsonFileWriter;
+import com.alexxx2k.core.Service;
+import com.alexxx2k.file.writer.CsvFileWriter;
+import com.alexxx2k.file.writer.JsonFileWriter;
 
 import java.io.File;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 
-public class FileWritterService extends Service {
+public class FileWriterService extends Service {
     private final boolean fileType;
     private final BlockingQueue<String> responseQueue;
 
-    public FileWritterService(int threadAmount, BlockingQueue<String> responseQueue, boolean fileType) {
+    public FileWriterService(int threadAmount, BlockingQueue<String> responseQueue, boolean fileType) {
         super(responseQueue, Executors.newFixedThreadPool(threadAmount));
         this.fileType = fileType;
         this.responseQueue = responseQueue;
@@ -23,8 +23,8 @@ public class FileWritterService extends Service {
     @Override
     public void start() {
         File outputFile = fileType
-                ? new File("src\\main\\java\\com\\alexxx2k\\output\\output.csv")
-                : new File("src\\main\\java\\com\\alexxx2k\\output\\output.json");
+                ? new File("output/output.csv")
+                : new File("output/output.json");
 
         Runnable writer = fileType
                 ? new CsvFileWriter(outputFile, responseQueue)

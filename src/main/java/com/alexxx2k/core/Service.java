@@ -1,4 +1,4 @@
-package com.alexxx2k.service;
+package com.alexxx2k.core;
 
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;

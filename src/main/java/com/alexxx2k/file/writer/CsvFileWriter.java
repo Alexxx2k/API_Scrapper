@@ -1,4 +1,4 @@
-package com.alexxx2k.thread.impl;
+package com.alexxx2k.file.writer;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class CsvFileWriter implements Runnable, com.alexxx2k.thread.FileWriter {
+public class CsvFileWriter implements Runnable, com.alexxx2k.file.writer.FileWriter {
     private File file;
     private final ReentrantLock lock = new ReentrantLock();
     private BlockingQueue<String> responseQueue;

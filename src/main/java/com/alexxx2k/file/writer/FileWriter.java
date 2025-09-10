@@ -1,4 +1,4 @@
-package com.alexxx2k.thread;
+package com.alexxx2k.file.writer;
 
 import java.io.File;
 import java.util.concurrent.BlockingQueue;

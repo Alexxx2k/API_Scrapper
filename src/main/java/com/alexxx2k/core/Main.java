@@ -1,8 +1,8 @@
-package com.alexxx2k;
+package com.alexxx2k.core;
 
 
-import com.alexxx2k.service.impl.ApiScrapperService;
-import com.alexxx2k.service.impl.FileWritterService;
+import com.alexxx2k.api.service.ApiScrapperService;
+import com.alexxx2k.file.service.FileWriterService;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -20,28 +20,32 @@ public class Main {
 
         ArrayBlockingQueue<String> queue = new ArrayBlockingQueue<>(threadAmount * 2);
 
-        ApiScrapperService apiService = new ApiScrapperService(
-                threadAmount, timeout, queue, inputFilePath);
+        ApiScrapperService apiService = new ApiScrapperService(threadAmount, timeout, queue, inputFilePath);
 
-        FileWritterService fileService = new FileWritterService(
-                threadAmount, queue, outputFileFormat);
+        FileWriterService fileService = new FileWriterService(threadAmount, queue, outputFileFormat);
 
 
-        Thread apiThread = new Thread(() -> {
-            try {
-                apiService.start();
-            } catch (Exception e) {
-                System.out.println("API Service failed: " + e.getMessage());
-                Thread.currentThread().interrupt();
+        Thread apiThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    apiService.start();
+                } catch (Exception e) {
+                    System.out.println("API Service failed: " + e.getMessage());
+                    Thread.currentThread().interrupt();
+                }
             }
         });
 
-        Thread fileThread = new Thread(() -> {
-            try {
-                fileService.start();
-            } catch (Exception e) {
-                System.out.println("File Service failed: " + e.getMessage());
-                Thread.currentThread().interrupt();
+        Thread fileThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    fileService.start();
+                } catch (Exception e) {
+                    System.out.println("File Service failed: " + e.getMessage());
+                    Thread.currentThread().interrupt();
+                }
             }
         });
 

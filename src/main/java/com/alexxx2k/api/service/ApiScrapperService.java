@@ -1,9 +1,9 @@
-package com.alexxx2k.service.impl;
+package com.alexxx2k.api.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.alexxx2k.service.Service;
-import com.alexxx2k.thread.ApiCaller;
+import com.alexxx2k.core.Service;
+import com.alexxx2k.api.client.ApiCaller;
 
 import java.io.File;
 import java.io.IOException;
