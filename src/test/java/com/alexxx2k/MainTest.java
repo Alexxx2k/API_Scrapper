@@ -22,12 +22,10 @@ class MainTest {
 
         String[] args = {"2", "1", configFile.getAbsolutePath(), "csv"};
 
-        // Запускаем в отдельном потоке и быстро прерываем
         Thread testThread = new Thread(() -> {
             try {
                 Main.main(args);
             } catch (Exception e) {
-                // Игнорируем исключения
             }
         });
 
@@ -41,7 +39,7 @@ class MainTest {
             Thread.currentThread().interrupt();
         }
 
-        assertTrue(true); // Если дошли сюда - программа запустилась
+        assertTrue(true);
     }
 
     @Test
@@ -55,7 +53,6 @@ class MainTest {
             try {
                 Main.main(args);
             } catch (Exception e) {
-                // Игнорируем исключения
             }
         });
 

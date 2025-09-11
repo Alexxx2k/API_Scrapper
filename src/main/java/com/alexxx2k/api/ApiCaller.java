@@ -25,13 +25,13 @@ public class ApiCaller implements Runnable {
     @Override
     public void run() {
         String threadInfo = "Поток-" + threadNumber + "[" + Thread.currentThread().getName() + "]";
-        System.out.println(threadInfo + " → Начинает запрос к: " + apiUrl);
+        System.out.println(threadInfo + " --> Начинает запрос к: " + apiUrl);
 
         try {
             HttpGet request = new HttpGet(apiUrl);
 
             try (CloseableHttpResponse response = httpClient.execute(request)) {
-                System.out.println(threadInfo + " ← Получил ответ от: " + apiUrl +
+                System.out.println(threadInfo + " <-- Получил ответ от: " + apiUrl +
                         " [Status: " + response.getStatusLine().getStatusCode() + "]");
 
                 if (response.getStatusLine().getStatusCode() == 200) {
@@ -41,7 +41,7 @@ public class ApiCaller implements Runnable {
                         fileWriter.writeResponse(responseBody);
                     }
 
-                    System.out.println(threadInfo + " ✓ Данные записаны в файл");
+                    System.out.println(threadInfo + " ! Данные записаны в файл");
                 }
             }
         } catch (Exception e) {

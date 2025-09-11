@@ -15,7 +15,6 @@ class JsonFileWriterTest {
 
     @Test
     void testWriteResponse_NewFile() throws Exception {
-        // Arrange
         File outputFile = new File(tempDir, "test.json");
         JsonFileWriter writer = new JsonFileWriter(outputFile);
         String jsonResponse = "{\"name\": \"test\", \"value\": 123}";
