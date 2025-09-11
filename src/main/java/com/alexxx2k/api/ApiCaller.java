@@ -1,4 +1,4 @@
-package com.alexxx2k.api.client;
+package com.alexxx2k.api;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -10,11 +10,11 @@ import com.alexxx2k.writer.ResponseFileWriter;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ApiCaller implements Runnable {
-    private final String apiUrl;
-    private final ResponseFileWriter fileWriter;
-    private CloseableHttpClient httpClient = HttpClients.createDefault();
+    final String apiUrl;
+    final ResponseFileWriter fileWriter;
+    private final CloseableHttpClient httpClient = HttpClients.createDefault();
     private static final AtomicInteger threadCounter = new AtomicInteger(0);
-    private final int threadNumber;
+    final int threadNumber;
 
     public ApiCaller(String apiUrl, ResponseFileWriter fileWriter) {
         this.apiUrl = apiUrl;

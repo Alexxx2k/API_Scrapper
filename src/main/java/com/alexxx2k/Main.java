@@ -1,6 +1,6 @@
-package com.alexxx2k.core;
+package com.alexxx2k;
 
-import com.alexxx2k.api.service.ApiScrapperService;
+import com.alexxx2k.api.ApiScrapperService;
 import com.alexxx2k.writer.ResponseFileWriter;
 import com.alexxx2k.writer.FileWriterFactory;
 
