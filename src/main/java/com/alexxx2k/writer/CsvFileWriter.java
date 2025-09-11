@@ -48,7 +48,6 @@ public class CsvFileWriter implements ResponseFileWriter {
             }
 
             writer.append(result).append("\n");
-            System.out.println("Written: " + result);
         }
     }
 
