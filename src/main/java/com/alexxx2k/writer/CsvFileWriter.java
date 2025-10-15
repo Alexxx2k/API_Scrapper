@@ -57,7 +57,6 @@ public class CsvFileWriter implements ResponseFileWriter {
             headersWritten = true;
         }
 
-        // Записываем данные
         writeDataRow(currentValues);
     }
 
