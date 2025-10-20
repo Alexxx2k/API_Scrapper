@@ -1,0 +1,36 @@
+[ {
+  "status" : "ok",
+  "totalResults" : 34,
+  "articles" : [ {
+    "source" : {
+      "id" : "abc-news",
+      "name" : "ABC News"
+    },
+    "author" : "ABC News - Breaking News, Latest News and Videos",
+    "title" : "Louvre Museum closes after brazen theft of jewels with 'inestimable' value - ABC News - Breaking News, Latest News and Videos",
+    "description" : null,
+    "url" : "https://abcnews.go.com/International/louvre-museum-closes-after-robbery-french-minister/story?id\\\\u003d126657104",
+    "urlToImage" : null,
+    "publishedAt" : "2025-10-19T13:07:30Z",
+    "content" : null
+  } ]
+}, {
+  "categories" : [ ],
+  "created_at" : "2020-01-05 13:42:28.420821",
+  "icon_url" : "https://api.chucknorris.io/img/avatar/chuck-norris.png",
+  "id" : "Kt5QkOxKRSunGGvndb_9CA",
+  "updated_at" : "2020-01-05 13:42:28.420821",
+  "url" : "https://api.chucknorris.io/jokes/Kt5QkOxKRSunGGvndb_9CA",
+  "value" : "Faces of Death is actually a biography of people that were given a choice other than a Chuck Norris roundhouse kick."
+}, [ {
+  "id" : "arl",
+  "url" : "https://cdn2.thecatapi.com/images/arl.jpg",
+  "width" : 500,
+  "height" : 332
+} ], {
+  "message" : "Powered by random-d.uk",
+  "url" : "http://random-d.uk/api/507.jpg"
+}, {
+  "image" : "https://randomfox.ca/images/28.jpg",
+  "link" : "https://randomfox.ca/?i=28"
+} ]

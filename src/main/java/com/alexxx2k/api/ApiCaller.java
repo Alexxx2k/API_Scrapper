@@ -1,0 +1,51 @@
+package com.alexxx2k.api;
+
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import com.alexxx2k.writer.ResponseFileWriter;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class ApiCaller implements Runnable {
+    final String apiUrl;
+    final ResponseFileWriter fileWriter;
+    private final CloseableHttpClient httpClient = HttpClients.createDefault();
+    private static final AtomicInteger threadCounter = new AtomicInteger(0);
+    final int threadNumber;
+
+    public ApiCaller(String apiUrl, ResponseFileWriter fileWriter) {
+        this.apiUrl = apiUrl;
+        this.fileWriter = fileWriter;
+        this.threadNumber = threadCounter.incrementAndGet();
+    }
+
+    @Override
+    public void run() {
+        String threadInfo = "Поток-" + threadNumber + "[" + Thread.currentThread().getName() + "]";
+        System.out.println(threadInfo + " --> Начинает запрос к: " + apiUrl);
+
+        try {
+            HttpGet request = new HttpGet(apiUrl);
+
+            try (CloseableHttpResponse response = httpClient.execute(request)) {
+                System.out.println(threadInfo + " <-- Получил ответ от: " + apiUrl +
+                        " [Status: " + response.getStatusLine().getStatusCode() + "]");
+
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    String responseBody = EntityUtils.toString(response.getEntity());
+
+                    synchronized (fileWriter) {
+                        fileWriter.writeResponse(responseBody);
+                    }
+
+                    System.out.println(threadInfo + " ! Данные записаны в файл");
+                }
+            }
+        } catch (Exception e) {
+            System.err.println(threadInfo + " ✗ Ошибка: " + e.getMessage());
+        }
+    }
+}

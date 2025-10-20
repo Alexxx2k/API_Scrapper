@@ -1,10 +1,9 @@
 package com.alexxx2k;
 
+import com.alexxx2k.api.ApiScrapperService;
+import com.alexxx2k.writer.ResponseFileWriter;
+import com.alexxx2k.writer.FileWriterFactory;
 
-import com.alexxx2k.service.impl.ApiScrapperService;
-import com.alexxx2k.service.impl.FileWritterService;
-
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
@@ -13,51 +12,22 @@ public class Main {
             throw new IllegalArgumentException(
                     "Wrong arguments! Correct usage: threadAmount, timeout, input file path, output file type[csv|json]");
         }
+
         int threadAmount = Integer.parseInt(args[0]);
         int timeout = Integer.parseInt(args[1]);
         String inputFilePath = args[2];
         boolean outputFileFormat = args[3].equals("csv");
 
-        ArrayBlockingQueue<String> queue = new ArrayBlockingQueue<>(threadAmount * 2);
+        ResponseFileWriter fileWriter = FileWriterFactory.createFileWriter(outputFileFormat);
 
         ApiScrapperService apiService = new ApiScrapperService(
-                threadAmount, timeout, queue, inputFilePath);
+                threadAmount, timeout, inputFilePath, fileWriter);
 
-        FileWritterService fileService = new FileWritterService(
-                threadAmount, queue, outputFileFormat);
-
-
-        Thread apiThread = new Thread(() -> {
-            try {
-                apiService.start();
-            } catch (Exception e) {
-                System.out.println("API Service failed: " + e.getMessage());
-                Thread.currentThread().interrupt();
-            }
-        });
-
-        Thread fileThread = new Thread(() -> {
-            try {
-                fileService.start();
-            } catch (Exception e) {
-                System.out.println("File Service failed: " + e.getMessage());
-                Thread.currentThread().interrupt();
-            }
-        });
-
-        apiThread.start();
-        fileThread.start();
-
+        apiService.start();
 
         try {
             TimeUnit.SECONDS.sleep(25);
             apiService.stop();
-            fileService.stop();
-
-            apiThread.interrupt();
-            apiThread.join();
-            fileThread.interrupt();
-            fileThread.join();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
