@@ -16,8 +16,7 @@ public class ApiScrapperService {
     private final ArrayList<ScheduledFuture<?>> scheduledTasks;
     private final ResponseFileWriter fileWriter;
 
-    public ApiScrapperService(int threadAmount, int timeout,
-                              String filepath, ResponseFileWriter fileWriter) {
+    public ApiScrapperService(int threadAmount, int timeout, String filepath, ResponseFileWriter fileWriter) {
         this.timeout = timeout;
         this.fileWriter = fileWriter;
         this.executor = Executors.newScheduledThreadPool(threadAmount);
